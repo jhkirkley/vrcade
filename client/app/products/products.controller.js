@@ -10,11 +10,13 @@ angular.module('vrshopApp')
       $scope.products = Product.search({id: data});
     } else {
       $scope.products = Product.query();
+      $scope.query = '';
     }
   });
 })
 .controller('ProductCatalogCtrl', function ($scope, $stateParams, Product) {
   $scope.product = Products.catalog({id: $stateParams.slug});
+  $scope.query = $stateParams.slug;
 })
 
   .controller('ProductViewCtrl', function ($scope, $state, $stateParams, Product) {

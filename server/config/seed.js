@@ -90,8 +90,14 @@ Catalog
       description: 'Rita Hayworth was an American actress and dancer'
     }, {
       title: 'Marilyn',
+      imageUrl: '/assets/uploads/mm.jpg',
       price: 8,
       description: 'Marilyn Monroe was an American actress and model'
+    }, {
+      title: 'Zoe',
+      imageUrl: '/assets/uploads/zoe.jpeg',
+      price: 8,
+      description: 'Zoe Saldana-Perego, Zoe Saldana, is an American actress and dancer. Following her performances with the FACES theater group, Saldana made her screen debut in an episode of Law & Order.'
     });
   })
    .then(function () {
