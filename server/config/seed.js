@@ -145,6 +145,12 @@ Catalog
       price: 8,
       description: 'Marilyn Monroe was an American actress and model'
     }, {
+      title: 'A-Frame Boilerplate',
+      imageUrl: '/assets/uploads/aframe.png',
+      price: 8,
+      description: 'A few simple shapes',
+      space: 'code goes here'
+    },{
       title: 'Zoe',
       imageUrl: '/assets/uploads/zoe.jpeg',
       price: 8,

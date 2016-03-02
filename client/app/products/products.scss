@@ -33,3 +33,23 @@
   border-top:1px solid #dadada;
   padding-top:5px;
 }
+
+.pricetext {
+  font-weight:bold;
+  font-size:1.4em;
+}
+
+@media (min-width: 992px) {
+  .productdescription {
+    height: 315px;
+    overflow: scroll;
+  }
+
+  .thumbnail img{
+    height: 240px;
+  }
+}
+
+.show {
+  height: 400px;
+}

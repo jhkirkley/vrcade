@@ -21,6 +21,12 @@ angular.module('vrshopApp')
         controller: 'ProductViewCtrl'
       })
 
+      .state('viewSpace', {
+        url: '/products/:id/space',
+        templateUrl: 'app/products/templates/product-space.html',
+        controller: 'ProductSpaceCtrl'
+      })
+
       .state('editProduct', {
         url: '/products/:id/edit',
         templateUrl: 'app/products/templates/product-edit.html',

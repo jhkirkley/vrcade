@@ -95,6 +95,14 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets a single Product Space from the DB
+exports.showSpace = function(req, res) {
+  Product.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new Product in the DB
 exports.create = function(req, res) {
   Product.createAsync(req.body)

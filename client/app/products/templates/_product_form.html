@@ -25,10 +25,20 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="year" class="col-sm-2 control-label">Description</label>
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <text-angular name="htmlcontent" ng-model="product.description" id="description" >
+        </text-angular>
+<!---
       <div class="col-sm-10">
-        <input type="text" ng-model="product.description" class="form-control" id="description" placeholder="Describe your product..."/>
+        <input type="text-angular" ng-model="product.description" class="form-control" id="description" placeholder="Describe your product..."/>
       </div>
+-->
+    </div>
+    <div class="form-group">
+      <label for="space" class="col-sm-2 control-label">Space</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="product.space" class="form-control" id="space" placeholder="create your world"/>
+    </div>
     </div>
     <div class="form-group">
       <label for="director" class="col-sm-2 control-label">Price</label>

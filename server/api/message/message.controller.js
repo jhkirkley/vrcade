@@ -12,6 +12,8 @@
 import _ from 'lodash';
 import Message from './message.model';
 import Channel from '../channel/channel.model';
+var MessageEvents = require('./message.events');
+
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {

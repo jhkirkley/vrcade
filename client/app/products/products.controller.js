@@ -15,12 +15,19 @@ angular.module('vrshopApp')
   });
 })
 .controller('ProductCatalogCtrl', function ($scope, $stateParams, Product) {
-  $scope.product = Products.catalog({id: $stateParams.slug});
+  $scope.product = Product.catalog({id: $stateParams.slug});
   $scope.query = $stateParams.slug;
 })
 
-  .controller('ProductViewCtrl', function ($scope, $state, $stateParams, Product) {
-    $scope.product = Product.get({id: $stateParams.id});
+  .controller('ProductViewCtrl', function ($sce, $scope, $state, $stateParams, Product) {
+    $scope.product =
+     Product.get({id: $stateParams.id},
+        function(product) {
+          console.log('product:', product);
+          $scope.sanitizedHtml = $sce.trustAsHtml(product.description);
+        }, function(err) {
+          console.log('err:', err);
+        });
     $scope.deleteProduct = function(){
       Product.delete({id: $scope.product._id}, function success() {
         $state.go('products');
@@ -28,7 +35,20 @@ angular.module('vrshopApp')
     };
   })
 
-  .controller('ProductNewCtrl', function ($scope, $state, Product) {
+  .controller('ProductSpaceCtrl', function ($sce, $scope, $state, $stateParams, Product) {
+    // $cacheFactory.get('$http').removeAll();
+    $scope.product =
+      Product.get({id: $stateParams.id},
+        function(product) {
+          console.log('product:', product);
+          $scope.sanitizedHtml = $sce.trustAsHtml(product.space);
+        }, function(err) {
+          console.log('err:', err);
+        });
+    console.log('$scope.product:', $scope.product);
+  })
+
+  .controller('ProductNewCtrl', function ($scope, $state, Product, Upload, $timeout) {
     $scope.product = {}; // create a new instance
     $scope.addProduct = function(){
       Product.save($scope.product, function success(value){
@@ -47,6 +67,8 @@ angular.module('vrshopApp')
 
     $scope.upload = uploadHander($scope, Upload, $timeout);
   });
+
+
 
 errorHandler = function ($scope){
   return function error(httpResponse){

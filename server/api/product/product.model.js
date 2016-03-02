@@ -6,6 +6,7 @@ var ProductSchema = new Schema({
   title: { type: String, required: true, trim: true },
   price: { type: Number, required: true, min: 0 },
   description: String,
+  space: { type: String},
   imageBin: { data: Buffer, contentType: String },
   imageUrl: String,
   categories: [{ type: Schema.Types.ObjectId, ref: 'Catalog', index: true }]
