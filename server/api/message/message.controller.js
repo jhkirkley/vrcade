@@ -92,6 +92,7 @@ export function create(req, res) {
       createdAt: new Date()
     });
     channel.messages.push(newMessage);
+    MessageEvents.emit('save', { message: newMessage, channelId: channel._id });
     return channel.save();
   })
   .then(respondWithResult(res, 201))
