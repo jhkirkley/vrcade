@@ -30,5 +30,10 @@ angular.module('vrshopApp')
         url: '/checkout',
         templateUrl: 'app/products/templates/products-checkout.html',
         controller: 'ProductCheckoutCtrl'
-      });
+      })
+      .state('productCatalog', {
+        url: '/products/:slug',
+        templateUrl: 'app/products/products.html',
+        controller: 'ProductCatalogCtrl'
+       })
   });

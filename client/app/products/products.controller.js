@@ -4,7 +4,18 @@ var uploadHander;
 angular.module('vrshopApp')
   .controller('ProductsCtrl', function ($scope, Product) {
     $scope.products = Product.query();
-  })
+
+    $scope.$on('search:term', function (event, data) {
+    if(data.length) {
+      $scope.products = Product.search({id: data});
+    } else {
+      $scope.products = Product.query();
+    }
+  });
+})
+.controller('ProductCatalogCtrl', function ($scope, $stateParams, Product) {
+  $scope.product = Products.catalog({id: $stateParams.slug});
+})
 
   .controller('ProductViewCtrl', function ($scope, $state, $stateParams, Product) {
     $scope.product = Product.get({id: $stateParams.id});

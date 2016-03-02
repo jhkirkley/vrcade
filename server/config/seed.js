@@ -7,7 +7,8 @@
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
 var Product = require('../api/product/product.model');
-
+var Catalog = require('../api/catalog/catalog.model');
+var mainCatalog, art, games, science, fashion;
 
 Thing.find({}).removeAsync()
   .then(() => {
@@ -59,9 +60,26 @@ User.find({}).removeAsync()
       console.log('finished populating users');
     });
   });
-Product.find({}).removeAsync()
+Catalog
+  .find({})
+  .remove()
+  .then(function () {
+    return Catalog.create({ name: 'All'});
+  })
+  .then(function (catalog) {
+    return Catalog.create({ name: 'Art'});
+  })
+  .then(function (category) {
+    return Catalog.create({ name: 'Games'});
+  })
+  .then(function (category) {
+    return Catalog.create({ name: 'Fashion'});
+  })
+  .then(function (category) {
+    return Product.find({}).remove({});
+  })
   .then(function() {
-    Product.createAsync({
+    return Product.create({
       title: 'Jayne Mansfield',
       imageUrl: '/assets/uploads/jmansfield2.png',
       price: 25,
@@ -74,8 +92,11 @@ Product.find({}).removeAsync()
       title: 'Marilyn',
       price: 8,
       description: 'Marilyn Monroe was an American actress and model'
-    })
-    .then(function() {
-      console.log('finished populating products');
     });
+  })
+   .then(function () {
+    console.log('Finished populating Products with categories');
+  })
+  .then(null, function (err) {
+    console.error('Error populating Products & categories: ', err);
   });

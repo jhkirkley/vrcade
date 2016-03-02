@@ -12,6 +12,7 @@
 import _ from 'lodash';
 import Product from './product.model';
 var path = require('path');
+var Catalog = require('../catalog/catalog.model');
 
 function responseWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -125,4 +126,33 @@ exports.upload = function(req, res) {
     .then(saveFile(res, file))
     .then(responseWithResult(res))
     .catch(handleError(res));
+};
+
+exports.catalog = function(req, res) {
+  Catalog
+    .findOne({ slug: req.params.slug })
+    .then(function (catalog) {
+      var catalog_ids = [catalog._id].concat(catalog.children);
+      console.log(catalog_ids, catalog);
+      return Product
+        .find({'categories': { $in: catalog_ids } })
+        .populate('categories')
+        .exec();
+    })
+    .then(function (products) {
+      res.json(200, products);
+    })
+    .then(null, function (err) {
+      handleError(res, err);
+    });
+};
+
+exports.search = function(req, res) {
+  Product
+    .find({ $text: { $search: req.params.term }})
+    .populate('categories')
+    .exec(function (err, products) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, products);
+    });
 };
