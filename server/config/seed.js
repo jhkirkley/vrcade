@@ -6,6 +6,8 @@
 'use strict';
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
+var Product = require('../api/product/product.model');
+
 
 Thing.find({}).removeAsync()
   .then(() => {
@@ -55,5 +57,25 @@ User.find({}).removeAsync()
     })
     .then(() => {
       console.log('finished populating users');
+    });
+  });
+Product.find({}).removeAsync()
+  .then(function() {
+    Product.createAsync({
+      title: 'Jayne Mansfield',
+      imageUrl: '/assets/uploads/jmansfield2.png',
+      price: 25,
+      description: 'Jayne Mansfield was an American actress in film, theatre, and television. She was also a nightclub entertainer, a singer, and one of the early Playboy Playmates'
+    }, {
+      title: 'Rita Hayworth',
+      price: 15,
+      description: 'Rita Hayworth was an American actress and dancer'
+    }, {
+      title: 'Marilyn',
+      price: 8,
+      description: 'Marilyn Monroe was an American actress and model'
+    })
+    .then(function() {
+      console.log('finished populating products');
     });
   });

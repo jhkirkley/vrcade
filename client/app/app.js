@@ -11,7 +11,9 @@ angular.module('vrshopApp', [
   'ui.router',
   'ui.bootstrap',
   'validation.match',   // add trailing comma
-  'ngAnimate'
+  'ngAnimate',
+  'ngFileUpload',
+  'ngCart'
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
