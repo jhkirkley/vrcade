@@ -61,14 +61,14 @@ function handleError(res, statusCode) {
 
 // Gets a list of Channels
 export function index(req, res) {
-  Channel.findAsync()
+  Channel.find().populate('owner messages.user')
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single Channel from the DB
 export function show(req, res) {
-  Channel.findByIdAsync(req.params.id)
+  Channel.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -86,7 +86,7 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Channel.findByIdAsync(req.params.id)
+  Channel.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
@@ -95,7 +95,7 @@ export function update(req, res) {
 
 // Deletes a Channel from the DB
 export function destroy(req, res) {
-  Channel.findByIdAsync(req.params.id)
+  Channel.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

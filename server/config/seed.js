@@ -9,6 +9,7 @@ import User from '../api/user/user.model';
 var Product = require('../api/product/product.model');
 var Catalog = require('../api/catalog/catalog.model');
 var mainCatalog, art, games, science, fashion;
+import Channel from '../api/channel/channel.model';
 
 Thing.find({}).removeAsync()
   .then(() => {
@@ -56,10 +57,60 @@ User.find({}).removeAsync()
       email: 'admin@example.com',
       password: 'admin'
     })
-    .then(() => {
+     .then(() => {
       console.log('finished populating users');
-    });
+      return User.find();
+    })
+    .then((users) => {
+      return createChannels(users);
+    })
+    .then((channels) => {
+      console.log('created the following channels:\n', channels);
+    }, handleError);
   });
+
+  function createChannels(users) {
+  return Channel.find().remove({})
+  .then(() => {
+    let now = new Date();
+    return Channel.create([
+      {
+        name: 'Classroom',
+        description: 'Classroom discussion',
+        active: true,
+        owner: users[0]._id,
+        messages: [
+          { text: 'First message.',  createdAt: now, user: users[0]._id },
+          { text: 'Second message.', createdAt: now, user: users[1]._id }
+        ]
+      },
+      {
+        name: 'Outcomes',
+        description: 'I Need a job!',
+        active: true,
+        owner: users[0]._id,
+        messages: [
+          { text: 'Third message.',  createdAt: now, user: users[0]._id },
+          { text: 'Fourth message.', createdAt: now, user: users[1]._id }
+        ]
+      },
+      {
+        name: 'Resources',
+        description: 'Where can I get more info?',
+        active: true,
+        owner: users[1]._id,
+        messages: [
+          { text: 'Fifth message.', createdAt: now, user: users[0]._id },
+          { text: 'Sixth message.', createdAt: now, user: users[1]._id }
+        ]
+      }
+    ]);
+  }, handleError);
+}
+
+function handleError(err) {
+  console.log('ERROR', err);
+}
 Catalog
   .find({})
   .remove()
@@ -106,3 +157,5 @@ Catalog
   .then(null, function (err) {
     console.error('Error populating Products & categories: ', err);
   });
+
+
