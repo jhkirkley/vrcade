@@ -19,7 +19,7 @@ angular.module('vrshopApp')
   $scope.query = $stateParams.slug;
 })
 
-  .controller('ProductViewCtrl', function ($sce, $scope, $state, $stateParams, Product) {
+  .controller('ProductViewCtrl', function ($sce, $scope, $state, $stateParams, Product, messageService) {
     $scope.product =
      Product.get({id: $stateParams.id},
         function(product) {
@@ -33,9 +33,10 @@ angular.module('vrshopApp')
         $state.go('products');
       }, errorHandler($scope));
     };
-  })
+})
 
-  .controller('ProductSpaceCtrl', function ($sce, $scope, $state, $stateParams, Product) {
+  .controller('ProductSpaceCtrl', function ($sce, $scope, $state, $stateParams, Product, messageService, socketFactory) {
+    $scope.newMessage = 'type new message here';
     // $cacheFactory.get('$http').removeAll();
     $scope.product =
       Product.get({id: $stateParams.id},
@@ -46,6 +47,46 @@ angular.module('vrshopApp')
           console.log('err:', err);
         });
     console.log('$scope.product:', $scope.product);
+          // socket.io now auto-configures its connection when we ommit a connection url
+    var ioSocket = io('', {
+      // Send auth token on connection, you will need to DI the Auth service above
+      // 'query': 'token=' + Auth.getToken()
+      path: '/socket.io-client'
+    });
+
+    var socket = socketFactory({ ioSocket });
+
+    // socket.syncUpdates('message', vm.selectedChannel.messages);
+      // TODO: I need to handle messages that arrive on other channels.
+      socket.on('message:save', function(eventData) {
+        var message = eventData.message;
+        var oldMessage = _.find($scope.product.messages, {_id: message._id});
+        var index = $scope.product.messages.indexOf(oldMessage);
+
+        // replace oldMessage if it exists
+        // otherwise just add message to the collection
+        if (oldMessage) {
+          $scope.product.messages.splice(index, 1, message);
+        } else {
+          $scope.product.messages.push(message);
+        }
+      });
+        $scope.sendMessage = function() {
+      messageService.sendMessage($scope.newMessage, $scope.product)
+      .then(function(response) {
+        $scope.newMessage = 'type new message here';
+      });
+    };
+  })
+    .controller('ProductMessagesCtrl', function($scope, messageService) {
+    $scope.newMessage = 'type new message here';
+
+    $scope.sendMessage = function() {
+      messageService.sendMessage($scope.newMessage, $scope.product)
+      .then(function(response) {
+        $scope.newMessage = 'type new message here';
+      });
+    };
   })
 
   .controller('ProductNewCtrl', function ($scope, $state, Product, Upload, $timeout) {

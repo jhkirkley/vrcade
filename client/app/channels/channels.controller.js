@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 angular.module('vrshopApp')
   .controller('ChannelsCtrl', function(channelService, $scope, socketFactory) {
@@ -55,4 +55,4 @@ angular.module('vrshopApp')
         vm.newMessage = 'type new message here';
       });
     };
-  });
+  }); */
