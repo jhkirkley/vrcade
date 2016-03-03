@@ -11,7 +11,7 @@
 
 import _ from 'lodash';
 import Message from './message.model';
-import Channel from '../channel/channel.model';
+import Product from '../product/product.model';
 var MessageEvents = require('./message.events');
 
 function respondWithResult(res, statusCode) {
@@ -81,18 +81,19 @@ export function create(req, res) {
   if (!req.user) {
     return res.status(404).send('It looks like you aren\'t logged in, please try again.');
   }
-  Channel.findByIdAsync(req.body.channelId)
-  .then(function(channel) {
-    if (!channel) {
-      return res.status(404).send('Channel not found.');
+  Product.findByIdAsync(req.body.productId)
+  .then(function(product) {
+    if (!product) {
+      return res.status(404).send('Product not found.');
     }
-    var newMessage = channel.messages.create({
+    var newMessage = product.messages.create({
       text: req.body.text,
       user: req.user,
       createdAt: new Date()
     });
-    channel.messages.push(newMessage);
-    return channel.save();
+    product.messages.push(newMessage);
+    MessageEvents.emit('save', { message: newMessage, productId: product._id });
+    return product.save();
   })
   .then(respondWithResult(res, 201))
   .catch(handleError(res));

@@ -22,7 +22,7 @@ function handleError(res, statusCode) {
   };
 }
 
-function responseWithResult(res, statusCode) {
+function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
@@ -82,31 +82,31 @@ function productsInCategory(catalog) {
 
 // Gets a list of Products
 exports.index = function(req, res) {
-  Product.findAsync()
-    .then(responseWithResult(res))
+  Product.find().populate('owner messages.user')
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single Product from the DB
 exports.show = function(req, res) {
-  Product.findByIdAsync(req.params.id)
+  Product.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single Product Space from the DB
 exports.showSpace = function(req, res) {
-  Product.findByIdAsync(req.params.id)
+  Product.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
 // Creates a new Product in the DB
 exports.create = function(req, res) {
   Product.createAsync(req.body)
-    .then(responseWithResult(res, 201))
+    .then(respondWithResult(res, 201))
     .catch(handleError(res));
 };
 
@@ -115,10 +115,10 @@ exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Product.findByIdAsync(req.params.id)
+  Product.findById(req.params.id).populate('owner messages.user')
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
@@ -140,7 +140,7 @@ exports.upload = function(req, res) {
   Product.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveFile(res, file))
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
@@ -149,7 +149,7 @@ exports.catalog = function(req, res) {
     .findOne({ slug: req.params.slug })
     .execAsync()
     .then(productsInCategory)
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };
 
@@ -158,6 +158,6 @@ exports.search = function(req, res) {
     .find({ $text: { $search: req.params.term }})
     .populate('categories')
     .execAsync()
-    .then(responseWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 };

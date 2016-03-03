@@ -9,7 +9,6 @@ import User from '../api/user/user.model';
 var Product = require('../api/product/product.model');
 var Catalog = require('../api/catalog/catalog.model');
 var mainCatalog, art, games, science, fashion;
-import Channel from '../api/channel/channel.model';
 
 Thing.find({}).removeAsync()
   .then(() => {
@@ -62,22 +61,25 @@ User.find({}).removeAsync()
       return User.find();
     })
     .then((users) => {
-      return createChannels(users);
+      return createProducts(users);
     })
-    .then((channels) => {
-      console.log('created the following channels:\n', channels);
+    .then((products) => {
+      console.log('created the following products:\n', products);
     }, handleError);
   });
 
-  function createChannels(users) {
-  return Channel.find().remove({})
+  function createProducts(users) {
+  return Product.find().remove({})
   .then(() => {
     let now = new Date();
-    return Channel.create([
+    return Product.create([
       {
-        name: 'Classroom',
-        description: 'Classroom discussion',
+        title: 'A-Frame Boilerplate',
+        description: 'A few simple shapes',
+        imageUrl: '/assets/uploads/aframe.png',
+        price: 8,
         active: true,
+        space: 'code goes here',
         owner: users[0]._id,
         messages: [
           { text: 'First message.',  createdAt: now, user: users[0]._id },
@@ -85,9 +87,12 @@ User.find({}).removeAsync()
         ]
       },
       {
-        name: 'Outcomes',
-        description: 'I Need a job!',
+        title: 'Jayne Mansfield',
+        imageUrl: '/assets/uploads/jmansfield2.png',
+        price: 25,
+       description: 'Jayne Mansfield was an American actress in film, theatre, and television. She was also a nightclub entertainer, a singer, and one of the early Playboy Playmates',
         active: true,
+        space: 'code goes here',
         owner: users[0]._id,
         messages: [
           { text: 'Third message.',  createdAt: now, user: users[0]._id },
@@ -95,9 +100,12 @@ User.find({}).removeAsync()
         ]
       },
       {
-        name: 'Resources',
-        description: 'Where can I get more info?',
+        title: 'Marilyn',
+        imageUrl: '/assets/uploads/mm.jpg',
+        price: 8,
+        description: 'Marilyn Monroe was an American actress and model',
         active: true,
+        space: 'code goes here',
         owner: users[1]._id,
         messages: [
           { text: 'Fifth message.', createdAt: now, user: users[0]._id },
@@ -129,7 +137,7 @@ Catalog
   .then(function (category) {
     return Product.find({}).remove({});
   })
-  .then(function() {
+ /* .then(function() {
     return Product.create({
       title: 'Jayne Mansfield',
       imageUrl: '/assets/uploads/jmansfield2.png',
@@ -156,7 +164,7 @@ Catalog
       price: 8,
       description: 'Zoe Saldana-Perego, Zoe Saldana, is an American actress and dancer. Following her performances with the FACES theater group, Saldana made her screen debut in an episode of Law & Order.'
     });
-  })
+  }) */
    .then(function () {
     console.log('Finished populating Products with categories');
   })

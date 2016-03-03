@@ -8,9 +8,6 @@ angular.module('vrshopApp')
     }, {
       'title': 'Products',
       'state': 'products'
-    }, {
-      'title': 'Channels',
-      'state': 'channels'
     }];
 
     $scope.isCollapsed = true;
