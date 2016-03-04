@@ -1,20 +1,28 @@
 'use strict';
 
-(function() {
+angular.module('vrshopApp')
+  .controller('AdminCtrl', function($scope, $http, Auth, User, Product, $state) {
 
-class AdminController {
-  constructor(User) {
     // Use the User $resource to fetch all users
-    this.users = User.query();
-  }
+    $scope.users = User.query();
 
-  delete(user) {
-    user.$remove();
-    this.users.splice(this.users.indexOf(user), 1);
-  }
-}
+    $scope.deleteUser = function(user) {
+      User.remove({ id: user._id });
+      $scope.users.splice(this.$index, 1);
+    };
 
-angular.module('vrshopApp.admin')
-  .controller('AdminController', AdminController);
+    $scope.products = Product.query();
 
-})();
+    $scope.showProduct = function(product){
+      $state.go('viewProduct', {id: product._id});
+    }
+
+    $scope.editProduct = function(product){
+      $state.go('editProduct', {id: product._id});
+    }
+
+    $scope.deleteProduct = function(product){
+      Product.remove({ id: product._id });
+      $scope.products.splice(this.$index, 1);
+    }
+  });

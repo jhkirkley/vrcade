@@ -21,7 +21,7 @@
   background-color:#ffffff;
   padding:10px;
   margin-bottom:10px;
-  box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 6px 6px 6px 0px #1a1aff;
 }
 
 .producttitle {
@@ -52,4 +52,21 @@
 
 .show {
   height: 400px;
+}
+.ta-toolbar {
+  width: 75%;
+  margin-left: 200px;
+  margin-top: 10px;
+}
+
+.ta-editor {
+  width: 75%;
+  margin-left: 200px;
+   margin-top: 10px;
+}
+
+.message-overlay {
+  position: absolute;
+  right: 50px;
+  bottom: 100px;
 }

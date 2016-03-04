@@ -7,6 +7,14 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 /**
  * App-wide Styles
  */
+ body {
+ background-color: #1F3A93;
+ color: #C5EFF7;
+ }
+ .navbar-static-top {
+ background-color: #1F3A93;
+ color: #C5EFF7;
+ }
 
 .browserupgrade {
   margin: 0.2em 0;
