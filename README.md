@@ -1,5 +1,14 @@
 # vrshop
 
+A Web Portal for Virtual Reality Experience
+
+Online at: https://vrcade.herokuapp.com/
+
+You Tube Video: http://www.youtube.com/watch?v=4lHAwk9dHA4
+
+Trello Board: https://trello.com/invite/b/vs43mOTJ/29f0a02d1cd1c04766f73adfd3e758e4/vrcade
+
+
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.3.0.
 
 ## Getting Started
